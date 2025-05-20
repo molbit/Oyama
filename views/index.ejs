@@ -1,3 +1,4 @@
+<script src="https://www.google.com/recaptcha/api.js?render=6Lc5lEErAAAAAD4k34ni0EXJZ-XLB8PY27F2gGII"></script>
 <script src="/assets/js/proxy.js" defer></script>
 <div id="align">
 	<nav id="nav">
@@ -32,14 +33,43 @@
 			<i class="fas fa-search searchicon"></i>
 		</button>
 	</form>
+<script>
+  const form = document.getElementById('form');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // デフォルトの送信を止める
+
+    grecaptcha.ready(function () {
+      grecaptcha.execute('6Lc5lEErAAAAAD4k34ni0EXJZ-XLB8PY27F2gGII', { action: 'submit' }).then(function (token) {
+        fetch('/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ token: token })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.score > 0.5) {
+            // 👍 Botじゃないと判断された！
+            document.getElementById('form').submit(); // 本来の送信処理を実行
+          } else {
+            alert("You have been blocked");
+          }
+        });
+      });
+    });
+  });
+</script>
+
 	<div id="suggestions"></div>
 	<div style="margin-top: 50px; z-index: 1;">
 		<%- include("ad"); %>
 	</div>
 
 	<footer>
-		<a title="discord" href="https://discord.gg/xi">Discord</a>
-		<a title="github" href="https://github.com/shuttlenetwork/shuttle">Github</a>
+		<a title="github" href="https://github.com/molbit">Discord</a>
+		<a title="homepage" href="https://oyama-j.sagamihara.andteacher.jp/">Github</a>
 	</footer>
 </div>
 <script src="/assets/js/home.js"></script>

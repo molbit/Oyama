@@ -112,3 +112,33 @@ function erudaToggle() {
 		};
 	}
 }
+
+grecaptcha.ready(function () {
+  grecaptcha.execute('6Lc5lEErAAAAAD4k34ni0EXJZ-XLB8PY27F2gGII', { action: 'submit' }).then(function (token) {
+    console.log('Token:', token); // デバッグ用。あとで消してもOK
+
+    // サーバーへトークンを送信して検証
+    fetch('/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token: token })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Verification result:', data); // 成功なら data.success === true
+
+        if (data.success) {
+          console.log('reCAPTCHA OK！');
+          // ここでフォーム有効化やユーザー処理などができる
+        } else {
+          alert('reCAPTCHA 検証に失敗しました。');
+        }
+      })
+      .catch(error => {
+        console.error('Error verifying reCAPTCHA:', error);
+      });
+  });
+});
+
