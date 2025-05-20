@@ -27,4 +27,4 @@ app.get("/", (req, res) => {
 // 静的ファイルを配信（例）
 app.use(express.static('public'));
 
-app.listen(8080, () => console.log('Server running on port 8080'));
+app.listen(3030, () => console.log('Server running on port 8080'));
