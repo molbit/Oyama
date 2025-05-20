@@ -142,3 +142,27 @@ grecaptcha.ready(function () {
   });
 });
 
+document.getElementById("form").addEventListener("submit", async (e) => {
+  e.preventDefault(); // フォームの通常送信を止める
+
+  grecaptcha.ready(async () => {
+    const token = await grecaptcha.execute("6Lc5lEErAAAAAD4k34ni0EXJZ-XLB8PY27F2gGII", { action: "submit" });
+
+    // トークンをサーバーに送信して検証する
+    const res = await fetch("/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      console.log("reCAPTCHA認証成功！");
+      // ここで通常の検索処理とか続けてOK
+      // 例: document.getElementById("form").submit(); とか
+    } else {
+      alert("reCAPTCHA認証に失敗しました。もう一度試してください。");
+    }
+  });
+});
