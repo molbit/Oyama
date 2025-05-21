@@ -19,12 +19,11 @@ app.post('/verify', async (req, res) => {
   res.json(data);
 });
 
-app.get("/", (req, res) => {
-  res.send("🟢 reCAPTCHA サーバーは起動中です！");
-});
+// ↓ この行は削除 or コメントアウト！
+// app.get("/", (req, res) => {
+//   res.send("🟢 reCAPTCHA サーバーは起動中です！");
+// });
 
-
-// 静的ファイルを配信（例）
 app.use(express.static('public'));
 
-app.listen(3030, () => console.log('Server running on port 8080'));
+app.listen(8080, () => console.log('Server running on port 8080'));
