@@ -27,6 +27,6 @@ npm start
 
 ##保存するとき
 git add .
-git commit -m "add server for reCAPTCHA"
+git commit -m "add index.html"
 git push
 
